@@ -105,7 +105,7 @@ public class AccountDAOImpl implements AccountDAO {
             return accounts;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Accounts lookup failed", e);
+            throw new AccountNotFoundException("Accounts lookup failed", e);
         }
     }
 
