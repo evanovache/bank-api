@@ -23,6 +23,7 @@ Content-Type: application/json
     "password": "amen"
 }
 
+
 ### CREATE SAVINGS ACCOUNT
 
 @userId = 1000

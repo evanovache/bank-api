@@ -15,5 +15,4 @@ public interface AccountDAO {
 
     void updateBalance(long accountNumber, double newBalance);
 
-    int getPin(long accountNumber);
 }

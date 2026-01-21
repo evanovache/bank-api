@@ -73,6 +73,7 @@ public class UserResource {
         if (request.getInitialDeposit() < 50)
             throw new InsufficientFundsException("Initial deposit must be $50 or more.");
 
+
         Account account =  
             (request.getType() == AccountType.SAVINGS)
                 ? new SavingsAccount()

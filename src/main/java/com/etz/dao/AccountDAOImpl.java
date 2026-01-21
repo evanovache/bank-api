@@ -132,30 +132,7 @@ public class AccountDAOImpl implements AccountDAO {
         }
     }
 
-    @Override
-    public int getPin(long accountNumber) {
-
-        String sql = "SELECT pin FROM accounts WHERE account_number = ?";
-
-        try (
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
-
-            ps.setLong(1, accountNumber);
-            ResultSet rs = ps.executeQuery();
-
-            if (!rs.next()) {
-                throw new RuntimeException("Account not found");
-            }
-
-            return rs.getInt("pin");
-
-        } catch (SQLException e) {
-            throw new RuntimeException("PIN lookup failed", e);
-        }
-    }
-    
+       
     private Account mapRow(ResultSet rs) throws SQLException {
 
         AccountType type = AccountType.valueOf(rs.getString("account_type"));

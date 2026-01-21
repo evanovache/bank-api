@@ -3,19 +3,19 @@ package com.etz.controller;
 import java.util.List;
 
 import com.etz.controller.response.BalanceResponse;
+import com.etz.dto.MiniStatementRequest;
+import com.etz.dto.PinRequest;
 import com.etz.dto.TransactionRequest;
 import com.etz.model.Transaction;
 import com.etz.service.BankService;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -29,13 +29,13 @@ public class AccountResource {
     private BankService bankService;
 
 
-    @GET
+    @POST
     @Path("/{accountNumber}/balance")
     public Response getBalance(
         @PathParam("accountNumber") long accountNumber,
-        @QueryParam("pin") int pin
+        PinRequest request
     ) {
-        double balance = bankService.getBalance(accountNumber, pin);
+        double balance = bankService.getBalance(accountNumber, request.getPin());
         return Response.status(Response.Status.OK)
                        .entity(new BalanceResponse(balance))
                        .build();
@@ -76,14 +76,13 @@ public class AccountResource {
     }
 
 
-    @GET
+    @POST
     @Path("/{accountNumber}/transactions")
     public Response recentTransactions(
         @PathParam("accountNumber") long accountNumber,
-        @QueryParam("pin") int pin,
-        @QueryParam("limit") @DefaultValue("5") int limit
+        MiniStatementRequest request
     ) {
-        List<Transaction> transaction = bankService.getRecentTransactions(accountNumber, pin, limit);
+        List<Transaction> transaction = bankService.getRecentTransactions(accountNumber, request.getPin(), request.getLimit());
         return Response.ok(transaction).build();
     }
 }

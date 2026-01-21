@@ -1,10 +1,15 @@
 @host = http://localhost:8080/apex-bank
 @base = /api 
 @accounts = {{base}}/accounts
-@accountNumber = 10106
+@accountNumber = 10110
 
 ### CHECK BALANCE
-GET {{host}}{{accounts}}/{{accountNumber}}/balance?pin=1234
+POST {{host}}{{accounts}}/{{accountNumber}}/balance
+Content-Type: application/json 
+
+{
+    "pin": 1234
+}
 
 
 ### DEPOSIT
@@ -26,5 +31,10 @@ Content-Type: application/json
 }
 
 ### MINI STATEMENT
-GET {{host}}{{accounts}}/{{accountNumber}}/transactions?pin=1234
+POST {{host}}{{accounts}}/{{accountNumber}}/transactions
+Content-Type: application/json 
 
+{
+    "pin": 1234,
+    "limit": 5
+}
