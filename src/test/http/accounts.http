@@ -1,0 +1,30 @@
+@host = http://localhost:8080/apex-bank
+@base = /api 
+@accounts = {{base}}/accounts
+@accountNumber = 10106
+
+### CHECK BALANCE
+GET {{host}}{{accounts}}/{{accountNumber}}/balance?pin=1234
+
+
+### DEPOSIT
+POST {{host}}{{accounts}}/{{accountNumber}}/deposit
+Content-Type: application/json
+
+{
+    "pin": 1234,
+    "amount": 200
+}
+
+### WITHDRAW
+POST {{host}}{{accounts}}/{{accountNumber}}/withdraw
+Content-Type: application/json 
+
+{
+    "pin": 1234,
+    "amount": 200000
+}
+
+### MINI STATEMENT
+GET {{host}}{{accounts}}/{{accountNumber}}/transactions?pin=1234
+

@@ -1,0 +1,46 @@
+@host = http://localhost:8080/apex-bank
+@base = /api 
+@users = {{base}}/users
+
+
+
+### CREATE USER
+POST {{host}}{{users}}
+Content-Type: application/json
+
+{
+    "fullName": "Evigan Simons",
+    "email": "evigan.simons2@outlook.com",
+    "password": "amen"
+}
+
+
+### CREATE SAVINGS ACCOUNT
+
+@userId = 1000
+POST {{host}}{{users}}/{{userId}}/accounts
+Content-Type: application/json  
+
+{
+    "type": "CURRENT", 
+    "initialDeposit": 500,
+    "pin": 1234
+}
+
+
+### CREATE CURRENT ACCOUNT
+
+POST {{host}}{{users}}/{{userId}}/accounts
+Content-Type: application/json 
+
+{
+    "type": "CURRENT",
+    "initialDeposit": 2,
+    "pin": 1234
+}
+
+
+### List User Accounts
+
+GET {{host}}{{users}}/{{userId}}/accounts
+
