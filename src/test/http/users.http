@@ -14,6 +14,14 @@ Content-Type: application/json
     "password": "amen"
 }
 
+### LOGIN
+POST {{host}}{{users}}/login
+Content-Type: application/json 
+
+{
+    "email": "dollyP@outlook.com",
+    "password": "amen"
+}
 
 ### CREATE SAVINGS ACCOUNT
 

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.etz.exception.AccountCreationException;
 import com.etz.model.User;
 import com.etz.util.DatabaseConnection;
 
@@ -40,9 +41,9 @@ public class UserDAOImpl implements UserDAO {
                 return rs.getLong(1);
             }
 
-            throw new RuntimeException("Failed to create user");
+            throw new AccountCreationException("Failed to create user");
         } catch (SQLException e) {
-            throw new RuntimeException("user creation failed", e);
+            throw new AccountCreationException("user creation failed", e);
         }
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import com.etz.dao.AccountDAO;
 import com.etz.dao.UserDAO;
 import com.etz.dto.CreateAccountRequest;
+import com.etz.dto.LoginRequest;
 import com.etz.exception.InsufficientFundsException;
 import com.etz.exception.UserAlreadyExistsException;
 import com.etz.model.Account;
@@ -96,5 +97,27 @@ public class UserResource {
 
         List<Account> accounts = accountDAO.findByUserId(userId);
         return Response.ok(accounts).build();
+     }
+
+
+     @POST
+     @Path("/login")
+     public Response login(LoginRequest request) {
+
+        User user = userDAO.findByEmail(request.getEmail());
+        if (user == null)
+            throw new IllegalArgumentException("Invalid email or password");
+
+        boolean valid = PasswordUtil.verify(
+            request.getPassword(),
+            user.getPassword()
+        );
+
+        if (!valid) 
+            throw new IllegalArgumentException("Invalid email or password");
+
+        user.setPassword(null);
+
+        return Response.ok(user).build();
      }
 }
