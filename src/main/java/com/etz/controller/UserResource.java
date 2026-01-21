@@ -12,6 +12,7 @@ import com.etz.model.AccountType;
 import com.etz.model.CurrentAccount;
 import com.etz.model.SavingsAccount;
 import com.etz.model.User;
+import com.etz.security.PasswordUtil;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -34,6 +35,7 @@ public class UserResource {
     @Inject
     private AccountDAO accountDAO;
 
+
     @POST
     public Response createUser(User user) {
 
@@ -41,13 +43,20 @@ public class UserResource {
             throw new UserAlreadyExistsException("User Already Exists");
         }
 
+        user.setPassword(
+            PasswordUtil.hash(user.getPassword())
+        );
+
         long userId = userDAO.create(user);
         user.setUserId(userId);
+
+        user.setPassword(null);
 
         return Response.status(Response.Status.CREATED)
                        .entity(user)
                        .build();
     }
+
 
     @POST
     @Path("/{userId}/accounts")

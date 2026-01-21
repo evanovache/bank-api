@@ -9,8 +9,8 @@ POST {{host}}{{users}}
 Content-Type: application/json
 
 {
-    "fullName": "Evigan Simons",
-    "email": "evigan.simons2@outlook.com",
+    "fullName": "Dolly Patton",
+    "email": "dollyP@outlook.com",
     "password": "amen"
 }
 
