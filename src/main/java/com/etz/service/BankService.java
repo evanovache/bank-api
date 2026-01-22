@@ -10,6 +10,7 @@ import com.etz.exception.InvalidPinException;
 import com.etz.model.Account;
 import com.etz.model.Transaction;
 import com.etz.model.TransactionType;
+import com.etz.security.PasswordUtil;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -87,7 +88,7 @@ public class BankService {
 
 
     private void validatePin(Account account, int pin) {
-    if (account.getPin() != pin) {
+    if (!PasswordUtil.verify(String.valueOf(pin), account.getPin())) {
         throw new InvalidPinException("Invalid PIN");
         }
     }

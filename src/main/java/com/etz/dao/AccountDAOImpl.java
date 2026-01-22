@@ -36,7 +36,7 @@ public class AccountDAOImpl implements AccountDAO {
             ps.setLong(1, account.getUserId());
             ps.setString(2, account.getAccountType().name());
             ps.setDouble(3, account.getBalance());
-            ps.setInt(4, account.getPin()); 
+            ps.setString(4, account.getPin()); 
 
             ps.executeUpdate();
 
@@ -146,7 +146,7 @@ public class AccountDAOImpl implements AccountDAO {
         account.setUserId(rs.getLong("user_id"));
         account.setAccountType(type);
         account.setBalance(rs.getDouble("balance"));
-        account.setPin(rs.getInt("pin"));
+        account.setPin(rs.getString("pin"));
 
         return account;
     }

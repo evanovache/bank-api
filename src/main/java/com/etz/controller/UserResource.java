@@ -82,10 +82,12 @@ public class UserResource {
         account.setUserId(userId);
         account.setAccountType(request.getType());
         account.setBalance(request.getInitialDeposit());
-        account.setPin(request.getPin());
+        account.setPin(
+            PasswordUtil.hash(String.valueOf(request.getPin())));
 
         long accountNumber = accountDAO.create(account);
         account.setAccountNumber(accountNumber);
+        account.setPin(null);
 
         return Response.status(Response.Status.CREATED)
                        .entity(account)
@@ -97,6 +99,8 @@ public class UserResource {
      public Response listAccounts(@PathParam("userId") long userId) {
 
         List<Account> accounts = accountDAO.findByUserId(userId);
+        for (Account account : accounts)
+            account.setPin(null);
         return Response.ok(accounts).build();
      }
 
@@ -118,6 +122,7 @@ public class UserResource {
             throw new IllegalArgumentException("Invalid email or password");
 
         user.setPassword(null);
+        user.setCreatedAt(null);
 
         return Response.ok(user).build();
      }

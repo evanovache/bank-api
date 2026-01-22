@@ -6,7 +6,7 @@ public abstract class Account {
     private long userId;
     private long accountNumber;
     private double balance;
-    private int pin;
+    private String pin;
     private AccountType accountType;
 
     public long getUserId() {
@@ -33,11 +33,11 @@ public abstract class Account {
         this.balance = balance;
     }
 
-    public int getPin() {
+    public String getPin() {
         return pin;
     }
 
-    public void setPin(int pin) {
+    public void setPin(String pin) {
         this.pin = pin;
     }  
 
