@@ -8,19 +8,24 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.etz.exception.AccountCreationException;
 import com.etz.exception.AccountNotFoundException;
 import com.etz.model.Account;
 import com.etz.model.AccountType;
 import com.etz.model.CurrentAccount;
 import com.etz.model.SavingsAccount;
-import com.etz.util.DatabaseConnection;
 
+import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped 
 public class AccountDAOImpl implements AccountDAO {
     
+    @Resource(lookup = "java:/jdbc/ApexBankDS")
+    private DataSource dataSource;
+
     @Override
     public long create(Account account) {
 
@@ -30,7 +35,7 @@ public class AccountDAOImpl implements AccountDAO {
                 """;
         
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
             ps.setLong(1, account.getUserId());
@@ -62,7 +67,7 @@ public class AccountDAOImpl implements AccountDAO {
                 """;
         
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ) {
             ps.setLong(1, accountNumber);
@@ -92,7 +97,7 @@ public class AccountDAOImpl implements AccountDAO {
         List<Account> accounts = new ArrayList<>();
 
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ) {
             ps.setLong(1, userId);
@@ -119,7 +124,7 @@ public class AccountDAOImpl implements AccountDAO {
                 """;
 
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ) {
 

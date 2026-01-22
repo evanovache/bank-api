@@ -8,16 +8,21 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.etz.model.Transaction;
 import com.etz.model.TransactionType;
-import com.etz.util.DatabaseConnection;
 
+import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
 
 
 @ApplicationScoped 
 public class TransactionDAOImpl implements TransactionDAO {
     
+    @Resource(lookup = "java:/jdbc/ApexBankDS")
+    private DataSource dataSource;
+
     @Override
     public void save(Transaction transaction) {
 
@@ -28,7 +33,7 @@ public class TransactionDAOImpl implements TransactionDAO {
                 """;
         
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ) {
 
@@ -57,7 +62,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         List<Transaction> transactions = new ArrayList<>();
 
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
         ) {
 
@@ -89,7 +94,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         List<Transaction> transactions = new ArrayList<>();
 
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ) {
 

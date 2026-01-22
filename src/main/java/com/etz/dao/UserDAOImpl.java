@@ -6,15 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.sql.DataSource;
+
 import com.etz.exception.AccountCreationException;
 import com.etz.model.User;
-import com.etz.util.DatabaseConnection;
 
+import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
 
 
 @ApplicationScoped
 public class UserDAOImpl implements UserDAO {
+
+    @Resource(lookup = "java:/jdbc/ApexBankDS")
+    private DataSource dataSource;
     
     @Override
     public long create(User user) {
@@ -25,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
                 """;
 
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
 
@@ -56,7 +61,7 @@ public class UserDAOImpl implements UserDAO {
                 WHERE user_id = ?
                 """;
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ) {
 
@@ -82,7 +87,7 @@ public class UserDAOImpl implements UserDAO {
                 WHERE email = ?
                 """;
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ) {
 
@@ -105,7 +110,7 @@ public class UserDAOImpl implements UserDAO {
         String sql = "SELECT 1 FROM users WHERE email = ?";
 
         try (
-            Connection conn = DatabaseConnection.getConnection();
+            Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ) {
 

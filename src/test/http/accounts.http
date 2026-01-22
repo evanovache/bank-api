@@ -1,7 +1,7 @@
 @host = http://localhost:8080/apex-bank
 @base = /api 
 @accounts = {{base}}/accounts
-@accountNumber = 10119
+@accountNumber = 10120
 
 ### CHECK BALANCE
 POST {{host}}{{accounts}}/{{accountNumber}}/balance
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 {
     "pin": 1234,
-    "amount": 2000
+    "amount": 200
 }
 
 ### MINI STATEMENT

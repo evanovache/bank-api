@@ -9,8 +9,8 @@ POST {{host}}{{users}}
 Content-Type: application/json
 
 {
-    "fullName": "Emmanuel Aboagye",
-    "email": "e.aboagye@hotmail.com",
+    "fullName": "Bright Asante",
+    "email": "bright.asante@yahoo.com",
     "password": "amen"
 }
 
@@ -19,20 +19,20 @@ POST {{host}}{{users}}/login
 Content-Type: application/json 
 
 {
-    "email": "e.aboagye@hotmail.com",
+    "email": "bright.asante@yahoo.com",
     "password": "amen"
 }
 
 
 ### CREATE SAVINGS ACCOUNT
 
-@userId = 8
+@userId = 9
 POST {{host}}{{users}}/{{userId}}/accounts
 Content-Type: application/json  
 
 {
-    "type": "CURRENT", 
-    "initialDeposit": 500,
+    "type": "SAVINGS", 
+    "initialDeposit": 350,
     "pin": 1234
 }
 
