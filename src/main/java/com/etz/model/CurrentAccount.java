@@ -10,7 +10,7 @@ public class CurrentAccount extends Account {
     public void validateWithdrawal(double amount) {
         if (getBalance() - amount < OVERDRAFT_LIMIT) {
             throw new InsufficientFundsException (
-                "Withdrawal Unsuccessful. Overdraft limit exceeded"
+                "You do not have sufficient funds or available overdraft to complete this withdrawal."
             );
         }    
     }

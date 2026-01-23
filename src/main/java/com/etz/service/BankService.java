@@ -6,6 +6,7 @@ import java.util.List;
 import com.etz.dao.AccountDAO;
 import com.etz.dao.TransactionDAO;
 import com.etz.exception.AccountNotFoundException;
+import com.etz.exception.InsufficientFundsException;
 import com.etz.exception.InvalidPinException;
 import com.etz.model.Account;
 import com.etz.model.Transaction;
@@ -57,9 +58,10 @@ public class BankService {
 
             transaction.setStatus(TransactionStatus.SUCCESS);
 
-        } catch (RuntimeException e) {
+        } catch (InvalidPinException e) {
 
             transaction.setStatus(TransactionStatus.FAILED);
+            transaction.setFailureReason("INVALID PIN");
             transactionDAO.save(transaction);
             throw e;
         }
@@ -90,12 +92,20 @@ public class BankService {
 
             transaction.setStatus(TransactionStatus.SUCCESS);
 
-        } catch (RuntimeException e) {
+        } catch (InsufficientFundsException e) {
 
             transaction.setStatus(TransactionStatus.FAILED);
+            transaction.setFailureReason("INSUFFICIENT FUNDS");
             transactionDAO.save(transaction);
             throw e;
-        }      
+
+        } catch (InvalidPinException e) {
+
+            transaction.setStatus(TransactionStatus.FAILED);
+            transaction.setFailureReason("INVALID PIN");
+            transactionDAO.save(transaction);
+            throw e;
+        }   
             transactionDAO.save(transaction);
     }
 

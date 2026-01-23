@@ -11,7 +11,7 @@ public class SavingsAccount extends Account {
     public void validateWithdrawal(double amount) {
         if (getBalance() - amount < MINIMUM_BALANCE) {
             throw new InsufficientFundsException (
-                "Withdrawal Unsuccessful. Savings account must maintain minimum balance"
+                "You do not have sufficient funds to complete this withdrawal"
             );
         }
     }

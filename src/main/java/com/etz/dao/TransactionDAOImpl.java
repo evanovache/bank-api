@@ -28,8 +28,8 @@ public class TransactionDAOImpl implements TransactionDAO {
 
         String sql = """
                 INSERT INTO transactions
-                (account_number, amount, transaction_type, status, time_of_transaction)
-                VALUES (?, ?, ?, ?, ?)
+                (account_number, amount, transaction_type, status, failure_reason, time_of_transaction)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
         
         try (
@@ -41,7 +41,8 @@ public class TransactionDAOImpl implements TransactionDAO {
             ps.setDouble(2, transaction.getAmount());
             ps.setString(3, transaction.getTransactionType().name());
             ps.setString(4, transaction.getStatus().name());
-            ps.setTimestamp(5, Timestamp.valueOf(transaction.getTimeOfTransaction()));
+            ps.setString(5, transaction.getFailureReason());
+            ps.setTimestamp(6, Timestamp.valueOf(transaction.getTimeOfTransaction()));
 
             ps.executeUpdate();
 

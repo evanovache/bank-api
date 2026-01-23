@@ -9,6 +9,7 @@ public class Transaction {
     private double amount;
     private TransactionType transactionType;
     private TransactionStatus status;
+    private String failureReason;
     private LocalDateTime timeOfTransaction;
 
     public long getTransactionId() {
@@ -59,4 +60,12 @@ public class Transaction {
         this.status = status;
     }
 
+    public String getFailureReason() {
+        return failureReason;
+    }
+
+    public void setFailureReason(String failureReason) {
+        this.failureReason = failureReason;
+    }
+    
 }
