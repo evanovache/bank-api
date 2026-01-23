@@ -20,7 +20,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped 
 public class TransactionDAOImpl implements TransactionDAO {
     
-    @Resource(lookup = "java:/jdbc/ApexBankDS")
+    @Resource(lookup = "java:/jdbc/ApexBankDS2")
     private DataSource dataSource;
 
     @Override
@@ -28,8 +28,8 @@ public class TransactionDAOImpl implements TransactionDAO {
 
         String sql = """
                 INSERT INTO transactions
-                (account_number, amount, transaction_type, time_of_transaction)
-                VALUES (?, ?, ?, ?)
+                (account_number, amount, transaction_type, status, time_of_transaction)
+                VALUES (?, ?, ?, ?, ?)
                 """;
         
         try (
@@ -40,7 +40,8 @@ public class TransactionDAOImpl implements TransactionDAO {
             ps.setLong(1, transaction.getAccountNumber());
             ps.setDouble(2, transaction.getAmount());
             ps.setString(3, transaction.getTransactionType().name());
-            ps.setTimestamp(4, Timestamp.valueOf(transaction.getTimeOfTransaction()));
+            ps.setString(4, transaction.getStatus().name());
+            ps.setTimestamp(5, Timestamp.valueOf(transaction.getTimeOfTransaction()));
 
             ps.executeUpdate();
 
@@ -86,7 +87,8 @@ public class TransactionDAOImpl implements TransactionDAO {
         String sql = """
                 SELECT transaction_id, account_number, amount, transaction_type, time_of_transaction
                 FROM transactions
-                WHERE account_number = ?
+                WHERE account_number = ? 
+                    AND status = 'SUCCESS'
                 ORDER BY time_of_transaction DESC
                 LIMIT ?
                 """;

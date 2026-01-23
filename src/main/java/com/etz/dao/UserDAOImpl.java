@@ -18,7 +18,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class UserDAOImpl implements UserDAO {
 
-    @Resource(lookup = "java:/jdbc/ApexBankDS")
+    @Resource(lookup = "java:/jdbc/ApexBankDS2")
     private DataSource dataSource;
     
     @Override

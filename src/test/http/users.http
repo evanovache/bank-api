@@ -9,8 +9,8 @@ POST {{host}}{{users}}
 Content-Type: application/json
 
 {
-    "fullName": "Bright Asante",
-    "email": "bright.asante@yahoo.com",
+    "fullName": "Evans Keborni",
+    "email": "evans.keborni@gmail.com",
     "password": "amen"
 }
 
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 ### CREATE SAVINGS ACCOUNT
 
-@userId = 9
+@userId = 1
 POST {{host}}{{users}}/{{userId}}/accounts
 Content-Type: application/json  
 

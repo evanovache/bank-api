@@ -9,6 +9,7 @@ import com.etz.exception.AccountNotFoundException;
 import com.etz.exception.InvalidPinException;
 import com.etz.model.Account;
 import com.etz.model.Transaction;
+import com.etz.model.TransactionStatus;
 import com.etz.model.TransactionType;
 import com.etz.security.PasswordUtil;
 
@@ -37,34 +38,65 @@ public class BankService {
 
     public void deposit(long accountNumber, int pin, double amount) {
 
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Deposit amount must be positive");
+        Transaction transaction = new Transaction();
+        transaction.setAccountNumber(accountNumber);
+        transaction.setAmount(amount);
+        transaction.setTransactionType(TransactionType.DEPOSIT);
+        transaction.setTimeOfTransaction(LocalDateTime.now());
+
+        try {
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Deposit amount must be positive");
+            }
+
+            Account account = getAccount(accountNumber);
+            validatePin(account, pin);
+
+            double newBalance = account.getBalance() + amount;
+            accountDAO.updateBalance(accountNumber, newBalance);
+
+            transaction.setStatus(TransactionStatus.SUCCESS);
+
+        } catch (RuntimeException e) {
+
+            transaction.setStatus(TransactionStatus.FAILED);
+            transactionDAO.save(transaction);
+            throw e;
         }
 
-        Account account = getAccount(accountNumber);
-        validatePin(account, pin);
-
-        double newBalance = account.getBalance() + amount;
-        accountDAO.updateBalance(accountNumber, newBalance);
-
-        recordTransaction(accountNumber, amount, TransactionType.DEPOSIT);
+        transactionDAO.save(transaction);
     }
 
 
     public void withdraw(long accountNumber, int pin, double amount) {
 
-        if (amount <= 0)
-            throw new IllegalArgumentException("Withdrawal amount must be positive");
+        Transaction transaction = new Transaction();
+        transaction.setAccountNumber(accountNumber);
+        transaction.setAmount(amount);
+        transaction.setTransactionType(TransactionType.WITHDRAWAL);
+        transaction.setTimeOfTransaction(LocalDateTime.now());
 
-        Account account = getAccount(accountNumber);
-        validatePin(account, pin);
+        try {
+            if (amount <= 0)
+                throw new IllegalArgumentException("Withdrawal amount must be positive");
 
-        account.validateWithdrawal(amount);
+            Account account = getAccount(accountNumber);
+            validatePin(account, pin);
 
-        double newBalance = account.getBalance() - amount;
-        accountDAO.updateBalance(accountNumber, newBalance);
+            account.validateWithdrawal(amount);
 
-        recordTransaction(accountNumber, amount, TransactionType.WITHDRAWAL);
+            double newBalance = account.getBalance() - amount;
+            accountDAO.updateBalance(accountNumber, newBalance);
+
+            transaction.setStatus(TransactionStatus.SUCCESS);
+
+        } catch (RuntimeException e) {
+
+            transaction.setStatus(TransactionStatus.FAILED);
+            transactionDAO.save(transaction);
+            throw e;
+        }      
+            transactionDAO.save(transaction);
     }
 
 
@@ -93,19 +125,5 @@ public class BankService {
         }
     }
 
-
-    private void recordTransaction(
-        long accountNumber,
-        double amount, 
-        TransactionType type
-    ) {
-        Transaction transaction = new Transaction();
-        transaction.setAccountNumber(accountNumber);
-        transaction.setAmount(amount);
-        transaction.setTransactionType(type);
-        transaction.setTimeOfTransaction(LocalDateTime.now());
-
-        transactionDAO.save(transaction);
-    }
 }
 

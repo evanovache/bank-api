@@ -8,6 +8,7 @@ public class Transaction {
     private long accountNumber;
     private double amount;
     private TransactionType transactionType;
+    private TransactionStatus status;
     private LocalDateTime timeOfTransaction;
 
     public long getTransactionId() {
@@ -49,4 +50,13 @@ public class Transaction {
     public void setTimeOfTransaction(LocalDateTime timeOfTransaction) {
         this.timeOfTransaction = timeOfTransaction;
     }
+
+     public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
+    }
+
 }

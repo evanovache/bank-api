@@ -23,7 +23,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped 
 public class AccountDAOImpl implements AccountDAO {
     
-    @Resource(lookup = "java:/jdbc/ApexBankDS")
+    @Resource(lookup = "java:/jdbc/ApexBankDS2")
     private DataSource dataSource;
 
     @Override
