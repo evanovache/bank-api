@@ -9,8 +9,8 @@ POST {{host}}{{users}}
 Content-Type: application/json
 
 {
-    "fullName": "Evans Keborni",
-    "email": "evans.keborni@gmail.com",
+    "fullName": "Emmanuel Gyimah",
+    "email": "logan197@gmailc.com",
     "password": "amen"
 }
 
@@ -19,21 +19,21 @@ POST {{host}}{{users}}/login
 Content-Type: application/json 
 
 {
-    "email": "bright.asante@yahoo.com",
+    "email": "evans.keborni@gmail.com",
     "password": "amen"
 }
 
 
 ### CREATE SAVINGS ACCOUNT
 
-@userId = 1
+@userId = 2
 POST {{host}}{{users}}/{{userId}}/accounts
 Content-Type: application/json  
 
 {
     "type": "SAVINGS", 
     "initialDeposit": 350,
-    "pin": 1234
+    "pin": "1234"
 }
 
 
@@ -44,8 +44,8 @@ Content-Type: application/json
 
 {
     "type": "CURRENT",
-    "initialDeposit": 50,
-    "pin": 1234
+    "initialDeposit": 500,
+    "pin": "1234"
 }
 
 

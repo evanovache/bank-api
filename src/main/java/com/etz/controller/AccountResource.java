@@ -3,9 +3,11 @@ package com.etz.controller;
 import java.util.List;
 
 import com.etz.controller.response.BalanceResponse;
+import com.etz.dao.AccountDAO;
 import com.etz.dto.MiniStatementRequest;
 import com.etz.dto.PinRequest;
 import com.etz.dto.TransactionRequest;
+import com.etz.model.Account;
 import com.etz.model.Transaction;
 import com.etz.service.BankService;
 
@@ -26,6 +28,9 @@ public class AccountResource {
     
     @Inject 
     private BankService bankService;
+
+    @Inject 
+    private AccountDAO accountDAO;
 
 
     @POST
@@ -83,5 +88,16 @@ public class AccountResource {
     ) {
         List<Transaction> transaction = bankService.getRecentTransactions(accountNumber, request.getPin(), request.getLimit());
         return Response.ok(transaction).build();
+    }
+
+    @POST
+    @Path("/{accountNumber}/validate")
+    public Response validatePin(
+        @PathParam("accountNumber") long accountNumber,
+        PinRequest req
+    ) {
+        Account account = accountDAO.findByAccountNumber(accountNumber);
+        bankService.validatePin(account, req.getPin());
+        return Response.ok().build();
     }
 }

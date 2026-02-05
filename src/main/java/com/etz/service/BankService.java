@@ -129,11 +129,10 @@ public class BankService {
     }
 
 
-    private void validatePin(Account account, int pin) {
+    public void validatePin(Account account, int pin) {
     if (!PasswordUtil.verify(String.valueOf(pin), account.getPin())) {
         throw new InvalidPinException("Invalid PIN");
         }
-    }
-
+    } 
 }
 
